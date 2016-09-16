@@ -1,0 +1,263 @@
+CREATE TABLE PLAYERS(
+	PlayerId		CHAR(5)			NOT NULL,
+	LastName		Char(20)		NOT NULL,
+	FirstName		Char(20)		NOT NULL,
+	Address			Char(35)		NOT NULL,
+	City			Char(10)		NOT NULL,
+	State			Char(5)			NOT NULL,
+	ZipCode			Char(10)		NOT NULL,
+	PhoneNumber		Char(15)		NOT NULL,
+	
+CONSTRAINT	PLAYER_PK	PRIMARY KEY (PlayerId)
+);
+
+CREATE  TABLE STAFF(
+StaffId			CHAR(5)			NOT NULL,
+Title			Char(5)			NOT NULL,	
+FirstName		Char(15)		NOT NULL,
+LastName		Char(15)		NOT NULL,
+PhoneNumber		Char(15)		NOT NULL,
+CONSTRAINT		STAFF_PK		PRIMARY KEY (StaffId)
+) ;  
+
+CREATE  TABLE SPORTS(
+	Sports			Char(10)		NOT NULL,
+	SportsId		CHAR(5)			NOT NULL,
+	StaffId			CHAR(5)			NOT NULL,
+	CONSTRAINT		SPORTS_PK		PRIMARY KEY (SportsId),
+	CONSTRAINT		STAFF_FK	FOREIGN KEY (StaffId)
+				        REFERENCES  STAFF (StaffId)      
+) ;
+
+CREATE TABLE TEAMS(
+	Teamid			CHAR(5)			NOT NULL,
+	TeamName		Char(15)		NOT NULL,
+	Staffid			CHAR(5)			NOT NULL,
+	CONSTRAINT		TeamId_PK	PRIMARY KEY (TeamId),
+	CONSTRAINT		STAFF_FK	FOREIGN KEY (StaffId)
+				        REFERENCES  STAFF (StaffId),      
+	
+) ; 
+
+CREATE TABLE ROSTER(
+	Teamid			CHAR(5)			NOT NULL,
+	PlayerId		CHAR(5)			NOT NULL,
+	CONSTRAINT		TeamId_FK	FOREIGN KEY (TeamId)
+						REFERENCES	TEAMS	(TeamId),
+	CONSTRAINT		PLAYER_FK	FOREIGN KEY	(PlayerId)
+						REFERENCES	PLAYERS	(PlayerId),
+) ; 
+
+	 
+
+CREATE  TABLE GAMES(
+	GameCode		Char(5)			NOT NULL,
+	Location		Char(15)		NOT NULL,
+	Date			Date			NOT NULL,
+	Time			Char(10)		NOT NULL,
+	SportsId		CHAR(5)			NOT NULL,
+	CONSTRAINT		GAMES_PK		PRIMARY KEY (GameCode),
+	CONSTRAINT		SPORTS_FK		FOREIGN KEY (SportsID)
+				        REFERENCES  SPORTS (SportsID)
+) ; 
+         	
+CREATE  TABLE EQUIPMENT(
+	EquipmentId		CHAR(5)			NOT NULL,
+	EquipmentDescrp	Char(20)		NOT NULL,
+	CONSTRAINT		EQUIPMENT_PK	PRIMARY KEY (EquipmentId)
+
+) ;
+CREATE TABLE EQUIPMENT_RENTALS(
+	TransactionId	CHAR(5)			NOT NULL,
+	EquipmentId		CHAR(5)			NOT NULL,
+	Checkout		Time			NOT	NULL,
+	Checkin			Time			NOT	NULL,
+	PlayerId		CHAR(5)			NOT NULL,
+	CONSTRAINT		PLAYER_FK		FOREIGN	KEY	(PlayerId)
+						REFERENCES	PLAYERS (PLayerId),
+	CONSTRAINT		EQUIPMENT_PK	FOREIGN KEY	(EquipmentId)
+						REFERENCES	EQUIPMENT (EquipmentId),
+) ;
+
+
+/*****   PLAYERS DATA   ********************************************************/
+
+
+INSERT INTO PLAYERS VALUES(
+	'P1', 'Ross', 'Bob', '123 Fake Street', 'Fullerton', 'CA', 92801, '714-222-3645');
+INSERT INTO PLAYERS VALUES(
+	'P2', 'Jefferson', 'Thomas', '4 July Street', 'Fullerton', 'CA', 92835, '714-222-1234');
+INSERT INTO PLAYERS VALUES(
+	'P3', 'Norris', 'Chuck', '555 Fist Ave', 'Fullerton', 'CA', 92832, '714-234-4535');
+INSERT INTO PLAYERS VALUES(
+	'P4', 'Martinez', 'Damien', '1111 Associated Rd', 'Fullerton', 'CA', 92831, '562-555-6965');
+INSERT INTO PLAYERS VALUES(
+	'P5', 'Trump', 'Donnie', '3232 Maple St', 'Anaheim', 'CA', 92492, '714-567-5656');
+INSERT INTO PLAYERS VALUES(
+	'P6', 'Stewart', 'Richard', '1236 Flower Dr', 'Fullerton', 'CA', 92831, '714-809-9900');
+INSERT INTO PLAYERS VALUES(
+	'P7', 'Maiz', 'Donda', '9800 Friendly Ave', 'Anaheim', 'CA', 93430, '714-098-0044');
+INSERT INTO PLAYERS VALUES(
+	'P8', 'Goyary', 'Mitchell', '4523 Hippy St', 'La Habra', 'CA', 98743, '562-546-0902');
+INSERT INTO PLAYERS VALUES(
+	'P9', 'Flopter', 'Hector', '1246 Lopez Ln', 'Yorba Linda', 'CA', 96076, '714-234-4322');
+INSERT INTO PLAYERS VALUES(
+	'P10', 'Linny', 'Kyle', '5745 Yale Dr', 'Anaheim', 'CA', 92831, '714-223-3455');
+
+/*****   STAFF DATA   ********************************************************/
+
+
+INSERT INTO STAFF VALUES(
+	'CO1', 'Coordinator', 'Marc', 'Gomez', '562-777-6543');
+INSERT INTO STAFF VALUES(
+	'R1', 'Referee', 'Ryan', 'Jones', '714-147-2233');
+INSERT INTO STAFF VALUES(
+	'C1', 'Coach', 'Tyler', 'Owens', '909-123-4566');
+INSERT INTO STAFF VALUES(
+	'R2', 'Referee', 'Dirk', 'Smith', '714-890-9122');
+INSERT INTO STAFF VALUES(
+	'C2', 'Coach', 'Al', 'Hunter', '714-897-6543');
+INSERT INTO STAFF VALUES(
+	'CO2', 'Coordinator', 'Larry', 'Dalton', '714-567-6543');
+INSERT INTO STAFF VALUES(
+	'R3', 'Referee', 'Joe', 'Rayez', '714-432-2345');
+INSERT INTO STAFF VALUES(
+	'C3', 'Coach', 'Moe', 'Tomison', '714-432-5667');
+INSERT INTO STAFF VALUES(
+	'R4', 'Referee', 'Gary', 'Doper', '714-003-3256');
+INSERT INTO STAFF VALUES(
+	'C4', 'Coach', 'Jim', 'Geff', '714-235-9834');
+
+/*****   SPORTS DATA   ********************************************************/
+
+
+INSERT INTO SPORTS VALUES(
+	'S1', 'Water Polo', 'CO1');
+INSERT INTO SPORTS VALUES(
+	'S2', 'Basketball', 'CO2');
+INSERT INTO SPORTS VALUES(
+	'S3', 'Baseball', 'CO3');
+INSERT INTO SPORTS VALUES(
+	'S4', 'Football', 'CO4');
+INSERT INTO SPORTS VALUES(
+	'S5', 'Soccer', 'CO5');
+INSERT INTO SPORTS VALUES(
+	'S6', 'Water Polo', 'CO6');
+INSERT INTO SPORTS VALUES(
+	'S7', 'Basketball', 'CO7');
+INSERT INTO SPORTS VALUES(
+	'S8', 'Baseball', 'CO8');
+INSERT INTO SPORTS VALUES(
+	'S9', 'Football', 'CO9');
+INSERT INTO SPORTS VALUES(
+	'S10', 'Soccer', 'CO10');
+
+/*****   TEAMS DATA   ********************************************************/
+
+
+INSERT INTO TEAMS VALUES(
+	'T1', 'Bouncers', 'C1');
+INSERT INTO TEAMS VALUES(
+	'T2', 'Wet Seals', 'C2');
+INSERT INTO TEAMS VALUES(
+	'T3', 'Lakees', 'C3');
+INSERT INTO TEAMS VALUES(
+	'T4', 'Lions', 'C4');
+INSERT INTO TEAMS VALUES(
+	'T5', 'Cheetahs', 'C5');
+INSERT INTO TEAMS VALUES(
+	'T6', 'Winners', 'C6');
+INSERT INTO TEAMS VALUES(
+	'T7', 'Not Losers', 'C7');
+INSERT INTO TEAMS VALUES(
+	'T8', 'NOT_CHEATERS', 'C8');
+INSERT INTO TEAMS VALUES(
+	'T9', 'Contenders', 'C9');
+INSERT INTO TEAMS VALUES(
+	'T10', 'Defenders', 'C10');
+
+/*****   TEAM_ROSTER DATA   ********************************************************/
+
+
+INSERT INTO ROSTER VALUES(
+	'T1', 'P1');
+INSERT INTO ROSTER VALUES(
+	'T1', 'P2');
+INSERT INTO ROSTER VALUES(
+	'T2', 'P3');
+INSERT INTO ROSTER VALUES(
+	'T3', 'P3');
+INSERT INTO ROSTER VALUES(
+	'T3', 'P5');
+INSERT INTO ROSTER VALUES(
+	'T4', 'P1');
+INSERT INTO ROSTER VALUES(
+	'T5', 'P2');
+INSERT INTO ROSTER VALUES(
+	'T6', 'P3');
+INSERT INTO ROSTER VALUES(
+	'T7', 'P3');
+INSERT INTO ROSTER VALUES(
+	'T8', 'P5');
+INSERT INTO ROSTER VALUES(
+	'T9', 'P1');
+INSERT INTO ROSTER VALUES(
+	'T10', 'P2');
+
+
+/*****   GAMES DATA   ******************************************************/
+
+
+INSERT INTO GAMES VALUES('G1', 'Arena Pool', 'Bouncers', 'Jumpers', '9/14/16', '10:00AM', 'S1');
+INSERT INTO GAMES VALUES('G2', 'Hadley Field', 'Wet Seals', 'Riptides', '9/12/16', '10:00PM', 'S2');
+INSERT INTO GAMES VALUES('G3', 'Intramural Field', 'Lakees', 'Westsides', '9/11/16', '12:00PM', 'S3');
+INSERT INTO GAMES VALUES('G4', 'Scrimage Fields', 'Lions', 'Cheetahs', '9/16/16', '10:30AM', 'S4');
+INSERT INTO GAMES VALUES('G5', 'CSUF Grass', 'Cowboys', 'Indians', '9/15/16', '2:00PM', 'S5');
+INSERT INTO GAMES VALUES('G6', 'Arena Pool', 'Bouncers', 'Jumpers', '9/16/16', '10:00AM', 'S6');
+INSERT INTO GAMES VALUES('G7', 'Hadley Field', 'Wet Seals', 'Riptides', '9/17/16', '10:00PM', 'S7');
+INSERT INTO GAMES VALUES('G8', 'Intramural Field', 'Lakees', 'Westsides', '9/18/16', '12:00PM', 'S8');
+INSERT INTO GAMES VALUES('G9', 'Scrimage Fields', 'Lions', 'Cheetahs', '9/19/16', '10:30AM', 'S9');
+INSERT INTO GAMES VALUES('G10', 'CSUF Grass', 'Cowboys', 'Indians', '9/20/16', '2:00PM', 'S10');
+
+
+/*****   EQUIPMENT DATA   ******************************************************/
+
+
+INSERT INTO EQUIPMENT VALUES('E1', 'Pool Ball');
+INSERT INTO EQUIPMENT VALUES('E2', 'Basketball');
+INSERT INTO EQUIPMENT VALUES('E3', 'Baseball Mit');
+INSERT INTO EQUIPMENT VALUES('E4', 'Football');
+INSERT INTO EQUIPMENT VALUES('E5', 'Soccer Cones');
+INSERT INTO EQUIPMENT VALUES('E6', 'Pool Ball');
+INSERT INTO EQUIPMENT VALUES('E7', 'Basketball');
+INSERT INTO EQUIPMENT VALUES('E8', 'Baseball Mit');
+INSERT INTO EQUIPMENT VALUES('E9', 'Football');
+INSERT INTO EQUIPMENT VALUES('E10', 'Soccer Cones');
+
+
+/*****   EQUIPMENT_RENTALS DATA   *********************************************************/
+
+
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1234', 'E1', '9:45AM', '1:00PM', 'P1');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1123', 'E2', '11:30AM', '12:45PM', 'P2');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1233', 'E3', '12:00PM', '3:00PM', 'P3');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1432', 'E4', '10:00AM', '12:00PM', 'P4');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1453', 'E5', '1:45PM', '3:00PM', 'P5');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1245', 'E6', '1:21PM', '2:31PM', 'P6');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1589', 'E7', '2:00PM', '2:51PM', 'P7');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1248', 'E8', '2:39PM', '3:10PM', 'P8');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1236', 'E9', '3:18PM', '3:30PM', 'P9');
+INSERT INTO EQUIPMENT_RENTALS VALUES(
+	'1389', 'E10', '3:57PM', '3:49PM', 'P10');
+
+
+/****************************************************************************************/
